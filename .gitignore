@@ -1,0 +1,56 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+*.egg
+.eggs/
+
+# Distribution / packaging
+build/
+dist/
+wheels/
+*.whl
+*.tar.gz
+pip-log.txt
+pip-delete-this-directory.txt
+MANIFEST
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# IDE / editor
+.idea/
+.vscode/
+*.swp
+*~
+.DS_Store
+
+# Testing / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Scratch / temp figures (demo_figs/ is tracked as a showcase)
+*.tmp.png
+*.tmp.pdf
+_test_*.png
+
+# PyPI / twine
+.pypirc
+
+# OS
+Thumbs.db
+desktop.ini
