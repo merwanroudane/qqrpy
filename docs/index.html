@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>mqqr — Multivariate Quantile-on-Quantile Regression &amp; Causality</title>
+    <meta name="description" content="A publication-grade Python toolkit for QQR, multivariate QQR (Alola & Sinha variants), and quantile causality, with MATLAB-style 3-D Jet visualisations.">
+    <meta name="author" content="Dr. Merwan Roudane">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- MathJax for math rendering -->
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']],
+                   displayMath: [['$$', '$$'], ['\\[', '\\]']] }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" defer></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ==========  TOP NAVIGATION  ========== -->
+<nav class="topnav">
+    <div class="topnav-inner">
+        <a href="#" class="brand">
+            <span class="brand-mark">m</span>
+            <span>mqqr</span>
+        </a>
+        <div class="navlinks">
+            <a href="#methods">Methods</a>
+            <a href="#theory">Theory</a>
+            <a href="#install">Install</a>
+            <a href="#quickstart">Quick start</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#tables">Tables</a>
+            <a href="#api">API</a>
+            <a href="#cite">Cite</a>
+        </div>
+    </div>
+</nav>
+
+<!-- ==========  HERO  ========== -->
+<header class="hero">
+    <div class="hero-inner">
+        <div class="hero-meta">
+            <span class="badge">v1.0.0</span>
+            <span class="badge">Python 3.8+</span>
+            <span class="badge">MIT licence</span>
+            <span class="badge">MATLAB-style visuals</span>
+        </div>
+        <h1>Quantile-on-Quantile<br><span class="accent">Regression &amp; Causality</span></h1>
+        <p class="tagline">
+            A publication-grade Python toolkit for <strong>bivariate QQR</strong>,
+            <strong>multivariate m-QQR</strong> (additive Alola/Özkan
+            <em>and</em> moderated Sinha specifications), and
+            <strong>quantile Granger causality</strong> &mdash; with
+            MATLAB-faithful Jet 3-D surfaces, journal-quality heat-maps,
+            and LaTeX-ready tables.
+        </p>
+        <div class="hero-buttons">
+            <a href="https://pypi.org/project/mqqr/" class="btn btn-primary" target="_blank" rel="noopener">📦 View on PyPI</a>
+            <a href="https://github.com/merwanroudane/qqrpy" class="btn btn-secondary" target="_blank" rel="noopener">⭐ GitHub repository</a>
+        </div>
+        <div class="hero-install">
+            <span class="prompt">$</span>
+            <code>pip install mqqr</code>
+            <button class="copy-btn" onclick="navigator.clipboard.writeText('pip install mqqr')" title="Copy">📋</button>
+        </div>
+    </div>
+</header>
+
+<main>
+
+<!-- ==========  METHODS  ========== -->
+<section id="methods">
+    <h2>Methods</h2>
+    <p class="lede">
+        Five complete econometric workflows used in top-tier energy,
+        finance, and environmental econometrics journals &mdash; under one
+        consistent Python API.
+    </p>
+
+    <div class="methods-grid">
+        <div class="method-card">
+            <h3><span class="num">1</span> Bivariate QQR</h3>
+            <p class="ref">Sim &amp; Zhou (2015), Journal of Banking &amp; Finance</p>
+            <p>Local linear quantile regression with Gaussian kernel weights
+                $w_t=K\bigl((F_n(x_t)-\tau)/h\bigr)$ &mdash; the foundational
+                <code>qq_regression()</code>.</p>
+        </div>
+
+        <div class="method-card">
+            <h3><span class="num">2</span> Additive m-QQR (Type 1)</h3>
+            <p class="ref">Alola, Özkan &amp; Usman (2023), Energy Economics</p>
+            <p>Multivariate extension with one quantile axis per regressor
+                and no interaction terms &mdash; produces <em>n</em> side-by-side
+                3-D surfaces via <code>additive_mqq_regression()</code>.</p>
+        </div>
+
+        <div class="method-card">
+            <h3><span class="num">3</span> Moderated m-QQR (Type 2)</h3>
+            <p class="ref">Sinha et al. (2023), Energy Economics</p>
+            <p>One main effect plus moderators entering through
+                $x\cdot Z_j$ interactions, captured by quantile-varying
+                $\gamma_j(\theta,\tau)$ via <code>mqq_regression()</code>.</p>
+        </div>
+
+        <div class="method-card">
+            <h3><span class="num">4</span> QQ Granger causality</h3>
+            <p class="ref">Troster (2018), Econometric Reviews</p>
+            <p>Paired-bootstrap quantile causality test over the full
+                $(\theta,\tau)$ grid &mdash; visualised as a red-yellow-black
+                heat-map with significance stars via
+                <code>qq_causality()</code>.</p>
+        </div>
+
+        <div class="method-card">
+            <h3><span class="num">5</span> Conditional m-QQ causality</h3>
+            <p class="ref">Sinha et al. (2024), Risk Analysis</p>
+            <p>Multivariate version of the test, controlling for an
+                arbitrary set of moderators (with or without
+                $x\cdot Z$ interactions). Function:
+                <code>mqq_causality()</code>.</p>
+        </div>
+
+        <div class="method-card">
+            <h3>🎨 MATLAB visuals</h3>
+            <p class="ref">Bundled colour-maps + journal style</p>
+            <p>MATLAB <strong>Jet</strong>, <strong>Parula</strong>,
+                <strong>Turbo</strong>, Blue-Red diverging and the Sinha
+                red-yellow-black palette &mdash; rendered at 300 dpi with
+                serif fonts, ready for Elsevier / Springer submissions.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ==========  THEORY  ========== -->
+<section id="theory">
+    <h2>Theory &amp; specifications</h2>
+    <p class="lede">
+        The package implements the canonical Sim &amp; Zhou (2015) bivariate
+        QQR plus <em>both</em> distinct multivariate specifications found
+        in the literature. They are <strong>not equivalent</strong> &mdash; they
+        answer different questions, and we summarise the mathematical
+        differences below.
+    </p>
+
+    <h3>Bivariate QQR &mdash; Sim &amp; Zhou (2015)</h3>
+    <div class="theory">
+        <p>For each $(\theta,\tau)\in(0,1)^2$, the local linear quantile
+            regression is</p>
+        $$y_t \;=\; \beta_0(\theta,\tau)\;+\;\beta_1(\theta,\tau)\bigl(x_t-x^{\tau}\bigr)\;+\;\alpha^{\theta}\,y_{t-1}\;+\;v_t^{\theta},$$
+        <p>solved as a <em>weighted</em> $\theta$-quantile regression with
+            Gaussian kernel weights based on the empirical-CDF distance
+            of $x_t$ from its $\tau$-quantile:</p>
+        $$w_t \;=\; K\!\left(\frac{F_n(x_t)-\tau}{h}\right),\quad K(u)=\frac{1}{\sqrt{2\pi}}e^{-u^2/2}.$$
+        <p>The slope $\beta_1(\theta,\tau)$ measures how the
+            $\tau$-quantile of $x$ affects the $\theta$-quantile of $y$.
+            Sim &amp; Zhou recommend the plug-in bandwidth $h=0.05$.</p>
+    </div>
+
+    <h3>Type 1 &mdash; Additive m-QQR (Alola, Özkan &amp; Usman, 2023)</h3>
+    <div class="theory">
+        <p>For $n$ regressors $(x_1,\ldots,x_n)$ the additive specification
+            assigns each regressor its <strong>own</strong> quantile $\Phi_i$:</p>
+        $$y_t \;=\; \beta_0(\theta,\Phi_1,\ldots,\Phi_n)\;+\;\sum_{i=1}^{n}\beta_i(\theta,\Phi_i)\bigl(x_{i,t}-x_i^{\Phi_i}\bigr)\;+\;\alpha^{\theta}\,y_{t-1}\;+\;\epsilon_t^{\theta}.$$
+        <p>For each focal regressor $x_i$ and each cell $(\theta,\Phi)$:</p>
+        <ol>
+            <li>Compute Gaussian kernel weights local in $x_i$ at quantile $\Phi$.</li>
+            <li>Build a design matrix with <em>all</em> regressors centred
+                at their own $\Phi$-quantile.</li>
+            <li>Solve the weighted $\theta$-quantile regression and
+                extract the slope on $x_i$.</li>
+        </ol>
+        <p>The output is $n$ <strong>separate 3-D surfaces</strong>
+            $\hat{\beta}_i(\theta,\Phi)$, plotted side-by-side
+            (Alola 2023 Fig. 3 layout). Each surface reads as the
+            <em>partial effect</em> of $x_i$ adjusted for the other
+            regressors.</p>
+    </div>
+
+    <h3>Type 2 &mdash; Moderated m-QQR (Sinha et al., 2023)</h3>
+    <div class="theory">
+        <p>A single <strong>principal</strong> regressor $x$ with quantile $\tau$,
+            plus exogenous moderators $Z_j$ entering both linearly and
+            through interaction terms $x\cdot Z_j$:</p>
+        $$y_t \;=\; \beta_0(\theta,\tau)\;+\;\beta_1(\theta,\tau)(x_t-x^{\tau})\;+\;\sum_{j=1}^{p}\!\bigl[\gamma_j(\theta,\tau)(x_t Z_{j,t}-x^{\tau}Z_j^{\tau}) + \alpha_j(\theta)(Z_{j,t}-Z_j^{\tau})\bigr]\;+\;\alpha^{\theta}y_{t-1}\;+\;\epsilon_t^{\theta}.$$
+        <p>The quantile-varying coefficient $\gamma_j(\theta,\tau)$
+            captures the moderating effect of $Z_j$. The output is one
+            principal surface $\hat{\beta}_1(\theta,\tau)$ <strong>plus</strong>
+            one moderation surface $\hat{\gamma}_j(\theta,\tau)$ per
+            moderator.</p>
+    </div>
+
+    <h3>When to use which</h3>
+    <table class="api">
+        <thead>
+            <tr><th>You want to &hellip;</th><th>Use</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Compare marginal effects of <em>several</em> regressors on $y$.</td>
+                <td><code>additive_mqq_regression()</code></td></tr>
+            <tr><td>Study how <em>one</em> main effect is moderated by other covariates.</td>
+                <td><code>mqq_regression()</code></td></tr>
+            <tr><td>Replicate Alola, Özkan &amp; Usman (2023) / Özkan et al. (2023).</td>
+                <td><code>additive_mqq_regression()</code></td></tr>
+            <tr><td>Replicate Sinha et al. (2023) / Das et al. (2023).</td>
+                <td><code>mqq_regression()</code></td></tr>
+            <tr><td>Just one explanatory variable.</td>
+                <td><code>qq_regression()</code></td></tr>
+        </tbody>
+    </table>
+
+    <h3>Quantile Granger causality</h3>
+    <div class="theory">
+        <p>For each $(\theta,\tau)$ we test whether $x_{t-1}$
+            Granger-causes the $\theta$-quantile of $y_t$ using
+            paired-bootstrap inference on the local weighted
+            quantile-regression coefficient. The <em>conditional</em>
+            (m-QQ) variant adds a set of moderator controls $Z$ &mdash;
+            optionally with $x\cdot Z$ cross-terms &mdash; following the
+            Sinha multivariate-quantile-causality framework.</p>
+    </div>
+</section>
+
+<div class="divider-sun">☀ ☀ ☀</div>
+
+<!-- ==========  INSTALLATION  ========== -->
+<section id="install">
+    <h2>Installation</h2>
+    <p class="lede">Three install variants &mdash; pick the level of optional
+        extras you want.</p>
+
+<pre><code>pip install mqqr                # core: numpy, pandas, scipy, statsmodels, matplotlib
+pip install mqqr[plotly]        # + interactive HTML 3-D surfaces (plotly + kaleido)
+pip install mqqr[full]          # + seaborn, openpyxl, tabulate (richer tables / Excel)</code></pre>
+
+    <p>Editable install from source:</p>
+
+<pre><code>git clone https://github.com/merwanroudane/qqrpy.git
+cd qqrpy
+pip install -e .</code></pre>
+
+    <h3>Dependencies</h3>
+    <table class="api">
+        <thead><tr><th>Package</th><th>Min. version</th><th>Purpose</th></tr></thead>
+        <tbody>
+            <tr><td><code>numpy</code></td><td>1.20</td><td>array maths</td></tr>
+            <tr><td><code>pandas</code></td><td>1.3</td><td>result frames &amp; table export</td></tr>
+            <tr><td><code>scipy</code></td><td>1.7</td><td>distributions, kernels, LP solver</td></tr>
+            <tr><td><code>statsmodels</code></td><td>0.13</td><td>OLS / QR primitives</td></tr>
+            <tr><td><code>matplotlib</code></td><td>3.5</td><td>3-D surfaces, heat-maps, contours</td></tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- ==========  QUICK START  ========== -->
+<section id="quickstart">
+    <h2>Quick start</h2>
+    <p class="lede">All five workflows in &lt; 40 lines of Python.</p>
+
+<pre><code>import numpy as np
+from mqqr import (
+    qq_regression, mqq_regression, additive_mqq_regression,
+    qq_causality, mqq_causality,
+    plot_qq_3d, plot_mqq_panel, plot_additive_mqq_panel,
+    plot_qq_causality_heatmap,
+)
+
+# Synthetic example  (see example_full.ipynb for real macro data)
+rng = np.random.default_rng(2026)
+n   = 400
+x   = np.cumsum(rng.normal(0, 1, n)) / 10
+epu = rng.normal(0, 1, n)
+co2 = np.cumsum(rng.normal(0, 1, n)) / 12
+y   = -0.30 * x * (x &lt; 0) + 0.15 * x * epu + rng.normal(0, 0.6, n)
+
+# 1.  Bivariate QQR
+plot_qq_3d(qq_regression(y, x), cmap='jet')
+
+# 2.  Additive m-QQR  (Alola Fig. 3 layout)
+plot_additive_mqq_panel(
+    additive_mqq_regression(y, {'GF': x, 'EPU': epu, 'CO2': co2}),
+    cmap='jet',
+)
+
+# 3.  Moderated m-QQR  (Sinha multi-panel)
+plot_mqq_panel(
+    mqq_regression(y, x, moderators={'EPU': epu, 'CO2': co2})
+)
+
+# 4 + 5.  Quantile causality
+plot_qq_causality_heatmap(qq_causality(x, y))
+plot_qq_causality_heatmap(mqq_causality(x, y, {'EPU': epu, 'CO2': co2}))</code></pre>
+
+    <p>For a full tutorial on real US macroeconomic data, see
+        <a href="https://github.com/merwanroudane/qqrpy/blob/main/example_full.ipynb"><code>example_full.ipynb</code></a>
+        &mdash; the notebook that generates every figure in the
+        <a href="#gallery">gallery</a> below and every table in the
+        <a href="#tables">tables</a> section.</p>
+</section>
+
+<!-- ==========  GALLERY  ========== -->
+<section id="gallery">
+    <h2>Visualisation gallery</h2>
+    <p class="lede">
+        Every figure below was produced by the
+        <a href="https://github.com/merwanroudane/qqrpy/blob/main/example_full.ipynb"><code>example_full.ipynb</code></a>
+        notebook on real quarterly US macro data (1959 Q1 &ndash; 2009 Q3,
+        n = 202). MATLAB <strong>Jet</strong> colour-map at 300 dpi.
+    </p>
+
+    <h3>Data overview</h3>
+    <div class="gallery">
+        <figure class="figure-card">
+            <img src="images/fig00_series_overview.png" alt="Five US macro series">
+            <figcaption class="caption">
+                <strong>Figure 0 &mdash; Macro series overview</strong>
+                Inflation, real GDP growth, M1 growth, unemployment and 3-month T-bill.
+            </figcaption>
+        </figure>
+    </div>
+
+    <h3>Bivariate QQR &mdash; UNEMP → INFL</h3>
+    <div class="gallery">
+        <figure class="figure-card">
+            <img src="images/fig01_qqr_3d.png" alt="3-D MATLAB Jet QQR surface">
+            <figcaption class="caption">
+                <strong>Figure 1 &mdash; QQR 3-D surface (Jet)</strong>
+                $\hat{\beta}_1(\theta,\tau)$ &mdash; the Phillips curve at quantiles.
+            </figcaption>
+        </figure>
+        <figure class="figure-card">
+            <img src="images/fig02_qqr_heatmap.png" alt="QQR heat-map with significance stars">
+            <figcaption class="caption">
+                <strong>Figure 2 &mdash; Heat-map with stars</strong>
+                Annotated <code>*</code>/<code>**</code>/<code>***</code> at 10%, 5%, 1%.
+            </figcaption>
+        </figure>
+        <figure class="figure-card">
+            <img src="images/fig03_qqr_contour.png" alt="QQR filled contour">
+            <figcaption class="caption">
+                <strong>Figure 3 &mdash; Filled contour</strong>
+                Labelled iso-coefficient curves over the $(\theta,\tau)$ grid.
+            </figcaption>
+        </figure>
+    </div>
+
+    <h3>Additive m-QQR (Type 1) &mdash; three drivers of INFL</h3>
+    <div class="gallery">
+        <figure class="figure-card">
+            <img src="images/fig04_additive_mqqr_panel.png" alt="Alola Fig. 3 layout — three regressors">
+            <figcaption class="caption">
+                <strong>Figure 4 &mdash; Alola Fig. 3 layout</strong>
+                Three columns (GDP growth, M1 growth, unemployment), top row 3-D, bottom row heat-map with stars.
+            </figcaption>
+        </figure>
+        <figure class="figure-card">
+            <img src="images/fig05_amqqr_GDP_GR_3d.png" alt="Additive m-QQR — GDP_GR surface">
+            <figcaption class="caption">
+                <strong>Figure 5a &mdash; GDP growth &rarr; INFL</strong>
+                Stand-alone 3-D surface, MATLAB Jet.
+            </figcaption>
+        </figure>
+        <figure class="figure-card">
+            <img src="images/fig05_amqqr_M1_GR_3d.png" alt="Additive m-QQR — M1_GR surface">
+            <figcaption class="caption">
+                <strong>Figure 5b &mdash; M1 growth &rarr; INFL</strong>
+                Monetary channel into inflation quantiles.
+            </figcaption>
+        </figure>
+        <figure class="figure-card">
+            <img src="images/fig05_amqqr_UNEMP_3d.png" alt="Additive m-QQR — UNEMP surface">
+            <figcaption class="caption">
+                <strong>Figure 5c &mdash; Unemployment &rarr; INFL</strong>
+                Phillips channel net of GDP/M1.
+            </figcaption>
+        </figure>
+    </div>
+
+    <h3>Moderated m-QQR (Type 2) &mdash; GDP_GR → INFL</h3>
+    <div class="gallery">
+        <figure class="figure-card">
+            <img src="images/fig06_mqqr_panel.png" alt="Sinha panel: principal + moderation gammas">
+            <figcaption class="caption">
+                <strong>Figure 6 &mdash; Sinha multi-panel</strong>
+                Principal $\hat{\beta}_1$ surface + heat-map + per-moderator $\hat{\gamma}$ panels.
+            </figcaption>
+        </figure>
+        <figure class="figure-card">
+            <img src="images/fig07_mqqr_principal_3d.png" alt="Moderated m-QQR principal surface">
+            <figcaption class="caption">
+                <strong>Figure 7 &mdash; Principal moderated surface</strong>
+                $\hat{\beta}_1(\theta,\tau)$ for GDP_GR &rarr; INFL conditional on UNEMP, M1_GR.
+            </figcaption>
+        </figure>
+    </div>
+
+    <h3>Quantile Granger causality</h3>
+    <div class="gallery">
+        <figure class="figure-card">
+            <img src="images/fig08_qq_causality.png" alt="QQ causality heatmap">
+            <figcaption class="caption">
+                <strong>Figure 8 &mdash; QQ causality</strong>
+                |t|-statistic heat-map (red-yellow-black palette) with stars.
+            </figcaption>
+        </figure>
+        <figure class="figure-card">
+            <img src="images/fig09_mqq_causality.png" alt="Conditional m-QQ causality heatmap">
+            <figcaption class="caption">
+                <strong>Figure 9 &mdash; Conditional m-QQ causality</strong>
+                GDP_GR &rarr; INFL conditional on UNEMP, M1_GR.
+            </figcaption>
+        </figure>
+    </div>
+
+    <h3>Bundled colour-maps</h3>
+    <div class="gallery">
+        <figure class="figure-card">
+            <img src="images/fig10_colormaps.png" alt="MATLAB-faithful colour-maps">
+            <figcaption class="caption">
+                <strong>Figure 10 &mdash; Colour-map gallery</strong>
+                MATLAB Jet, Parula, Turbo, Blue-Red, Sinha red-yellow-black.
+            </figcaption>
+        </figure>
+    </div>
+</section>
+
+<!-- ==========  TABLES  ========== -->
+<section id="tables">
+    <h2>Journal-quality tables</h2>
+    <p class="lede">
+        All tables below were exported by the example notebook as
+        Markdown, LaTeX and CSV (Elsevier / Springer-compatible).
+        Each contains the standard $19\times 19$ grid of coefficients with
+        significance stars.
+    </p>
+
+    <table class="api">
+        <thead>
+            <tr>
+                <th>Table</th>
+                <th>Description</th>
+                <th>Formats</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>1</strong></td>
+                <td>Descriptive statistics (mean, sd, skew, kurt, JB, ARCH-LM)</td>
+                <td>
+                    <a href="tables/tab01_descriptive.md">md</a> &middot;
+                    <a href="tables/tab01_descriptive.tex">tex</a> &middot;
+                    <a href="tables/tab01_descriptive.csv">csv</a>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>2</strong></td>
+                <td>QQR slope $\hat{\beta}_1(\theta,\tau)$ &mdash; UNEMP $\to$ INFL</td>
+                <td>
+                    <a href="tables/tab02_qqr_beta1.md">md</a> &middot;
+                    <a href="tables/tab02_qqr_beta1.tex">tex</a> &middot;
+                    <a href="tables/tab02_qqr_beta1.csv">csv</a>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>3a</strong></td>
+                <td>Additive m-QQR &mdash; GDP_GR $\to$ INFL</td>
+                <td>
+                    <a href="tables/tab03_amqqr_GDP_GR.md">md</a> &middot;
+                    <a href="tables/tab03_amqqr_GDP_GR.tex">tex</a> &middot;
+                    <a href="tables/tab03_amqqr_GDP_GR.csv">csv</a>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>3b</strong></td>
+                <td>Additive m-QQR &mdash; M1_GR $\to$ INFL</td>
+                <td>
+                    <a href="tables/tab03_amqqr_M1_GR.md">md</a> &middot;
+                    <a href="tables/tab03_amqqr_M1_GR.tex">tex</a> &middot;
+                    <a href="tables/tab03_amqqr_M1_GR.csv">csv</a>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>3c</strong></td>
+                <td>Additive m-QQR &mdash; UNEMP $\to$ INFL</td>
+                <td>
+                    <a href="tables/tab03_amqqr_UNEMP.md">md</a> &middot;
+                    <a href="tables/tab03_amqqr_UNEMP.tex">tex</a> &middot;
+                    <a href="tables/tab03_amqqr_UNEMP.csv">csv</a>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>4</strong></td>
+                <td>Moderated m-QQR principal slope $\hat{\beta}_1$</td>
+                <td>
+                    <a href="tables/tab04_mqqr_beta1.md">md</a> &middot;
+                    <a href="tables/tab04_mqqr_beta1.tex">tex</a> &middot;
+                    <a href="tables/tab04_mqqr_beta1.csv">csv</a>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>5a</strong></td>
+                <td>Moderation $\hat{\gamma}$ &mdash; UNEMP</td>
+                <td>
+                    <a href="tables/tab05_mqqr_gamma_UNEMP.md">md</a> &middot;
+                    <a href="tables/tab05_mqqr_gamma_UNEMP.tex">tex</a> &middot;
+                    <a href="tables/tab05_mqqr_gamma_UNEMP.csv">csv</a>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>5b</strong></td>
+                <td>Moderation $\hat{\gamma}$ &mdash; M1_GR</td>
+                <td>
+                    <a href="tables/tab05_mqqr_gamma_M1_GR.md">md</a> &middot;
+                    <a href="tables/tab05_mqqr_gamma_M1_GR.tex">tex</a> &middot;
+                    <a href="tables/tab05_mqqr_gamma_M1_GR.csv">csv</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- ==========  API  ========== -->
+<section id="api">
+    <h2>API reference</h2>
+
+    <h3>Estimators</h3>
+    <table class="api">
+        <thead>
+            <tr><th>Function</th><th>Returns</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>qq_regression(y, x, …)</code></td>
+                <td><code>QQResult</code></td>
+                <td>Bivariate Sim &amp; Zhou (2015) QQR.</td>
+            </tr>
+            <tr>
+                <td><code>additive_mqq_regression(y, X, …)</code></td>
+                <td><code>AdditiveMQQResult</code></td>
+                <td>Type 1 &mdash; Alola/Özkan additive multivariate.</td>
+            </tr>
+            <tr>
+                <td><code>mqq_regression(y, x, moderators, …)</code></td>
+                <td><code>MQQResult</code></td>
+                <td>Type 2 &mdash; Sinha moderation + interactions.</td>
+            </tr>
+            <tr>
+                <td><code>qq_causality(x, y, …)</code></td>
+                <td><code>QQCausalityResult</code></td>
+                <td>Bivariate QQ Granger causality.</td>
+            </tr>
+            <tr>
+                <td><code>mqq_causality(x, y, moderators, …)</code></td>
+                <td><code>MQQCausalityResult</code></td>
+                <td>Conditional (m-QQ) Granger causality.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Plotting</h3>
+    <table class="api">
+        <thead><tr><th>Function</th><th>Description</th></tr></thead>
+        <tbody>
+            <tr><td><code>plot_qq_3d</code></td><td>3-D surface (MATLAB Jet).</td></tr>
+            <tr><td><code>plot_qq_heatmap</code></td><td>2-D heat-map with significance stars.</td></tr>
+            <tr><td><code>plot_qq_contour</code></td><td>Filled contour with isolines.</td></tr>
+            <tr><td><code>plot_mqq_3d</code></td><td>Sinha Type 2 principal 3-D surface.</td></tr>
+            <tr><td><code>plot_mqq_heatmap</code></td><td>Sinha Type 2 principal heat-map.</td></tr>
+            <tr><td><code>plot_mqq_panel</code></td><td>Sinha multi-panel (principal + $\gamma$).</td></tr>
+            <tr><td><code>plot_additive_mqq_3d</code></td><td>One regressor surface from Type 1.</td></tr>
+            <tr><td><code>plot_additive_mqq_heatmap</code></td><td>One regressor heat-map from Type 1.</td></tr>
+            <tr><td><code>plot_additive_mqq_panel</code></td><td>Alola Fig. 3 side-by-side (n columns).</td></tr>
+            <tr><td><code>plot_qq_causality_heatmap</code></td><td>|t|-statistics heat-map with stars.</td></tr>
+            <tr><td><code>plot_qq_3d_plotly</code></td><td>Interactive HTML 3-D surface.</td></tr>
+        </tbody>
+    </table>
+
+    <h3>Tables &amp; colours</h3>
+    <table class="api">
+        <thead><tr><th>Function / object</th><th>Description</th></tr></thead>
+        <tbody>
+            <tr><td><code>descriptive_table(data)</code></td><td>Mean / sd / skew / kurt / JB / ARCH-LM.</td></tr>
+            <tr><td><code>results_table(result, …)</code></td><td>Pivot table with significance stars.</td></tr>
+            <tr><td><code>to_latex(df, …)</code></td><td>Journal-ready LaTeX export.</td></tr>
+            <tr><td><code>to_markdown(df, …)</code></td><td>Markdown export.</td></tr>
+            <tr><td><code>MATLAB_JET, MATLAB_PARULA, TURBO, BLUE_RED, RED_YELLOW_BLACK</code></td><td>Bundled colormaps.</td></tr>
+            <tr><td><code>show_colormaps()</code></td><td>Render colormap swatches.</td></tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- ==========  CITATION  ========== -->
+<section id="cite">
+    <h2>Citation</h2>
+    <p class="lede">If <code>mqqr</code> supports your academic work, please
+        cite the methodology paper <em>and</em> the software.</p>
+
+<pre><code>@software{roudane_mqqr_2026,
+  author    = {Merwan Roudane},
+  title     = {{mqqr: Multivariate Quantile-on-Quantile Regression and Causality in Python}},
+  year      = {2026},
+  version   = {1.0.0},
+  publisher = {PyPI},
+  url       = {https://github.com/merwanroudane/qqrpy}
+}</code></pre>
+
+    <h3>Methodology references</h3>
+    <ol>
+        <li><strong>Sim, N. &amp; Zhou, H. (2015).</strong> Oil prices, US
+            stock return, and the dependence between their quantiles.
+            <em>Journal of Banking &amp; Finance</em>, 55, 1&ndash;12.</li>
+        <li><strong>Alola, A.A., Özkan, O. &amp; Usman, O. (2023).</strong>
+            Examining crude oil price outlook amidst substitute energy
+            price and household energy expenditure in the USA: A novel
+            nonparametric multivariate QQR approach.
+            <em>Energy Economics</em>, 120, 106613.</li>
+        <li><strong>Özkan, O., Haruna, R.A., Alola, A.A., Ghardallou, W. &amp;
+            Usman, O. (2023).</strong> Investigating energy-related
+            environmental risks of economic complexity. <em>Structural
+            Change &amp; Economic Dynamics</em>, 65, 382&ndash;392.</li>
+        <li><strong>Sinha, A., Ghosh, V., Hussain, N., Nguyen, D.K. &amp; Das,
+            N. (2023).</strong> Green financing of renewable energy
+            generation: capturing the role of exogenous moderation for
+            ensuring sustainable development. <em>Energy Economics</em>,
+            126, 107021.</li>
+        <li><strong>Das, N., Gangopadhyay, P., Bera, P. &amp; Hossain, M.E.
+            (2023).</strong> Multivariate quantile-on-quantile regression
+            and the Kaya identity: India. <em>Environmental Science &amp;
+            Pollution Research</em>, 30, 45796&ndash;45814.</li>
+        <li><strong>Troster, V. (2018).</strong> Testing for Granger-causality
+            in quantiles. <em>Econometric Reviews</em>, 37(8), 850&ndash;866.</li>
+        <li><strong>Sinha, A. et al. (2024).</strong> Multivariate Quantile
+            Causality. <em>Risk Analysis</em> (in press).</li>
+    </ol>
+</section>
+
+<!-- ==========  AUTHOR  ========== -->
+<section id="author">
+    <h2>Author</h2>
+    <div class="author-card">
+        <div class="author-photo">MR</div>
+        <div class="author-info">
+            <h3>Dr. Merwan Roudane</h3>
+            <p>Author &amp; maintainer of <code>mqqr</code>, <code>wqr</code>,
+                and the R CRAN packages <code>QuantileOnQuantile</code>
+                and <code>wqc</code>.</p>
+            <div class="author-links">
+                <a class="author-link" href="mailto:merwanroudane920@gmail.com">📧 Email</a>
+                <a class="author-link" href="https://github.com/merwanroudane/qqrpy" target="_blank" rel="noopener">🔗 GitHub</a>
+                <a class="author-link" href="https://pypi.org/project/mqqr/" target="_blank" rel="noopener">📦 PyPI</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<!-- ==========  FOOTER  ========== -->
+<footer>
+    <div class="ftr-inner">
+        <div class="ftr-links">
+            <a href="https://github.com/merwanroudane/qqrpy" target="_blank" rel="noopener">GitHub</a>
+            <a href="https://pypi.org/project/mqqr/" target="_blank" rel="noopener">PyPI</a>
+            <a href="https://github.com/merwanroudane/qqrpy/blob/main/LICENSE" target="_blank" rel="noopener">MIT licence</a>
+            <a href="https://github.com/merwanroudane/qqrpy/issues" target="_blank" rel="noopener">Issues</a>
+            <a href="https://github.com/merwanroudane/qqrpy/blob/main/example_full.ipynb" target="_blank" rel="noopener">Tutorial notebook</a>
+        </div>
+        <p class="ftr-copy">
+            &copy; 2026 Dr. Merwan Roudane &middot; <code>mqqr</code> &middot;
+            built with ☀ &amp; quantiles &middot;
+            <em>Multivariate Quantile-on-Quantile Regression &amp; Causality in Python</em>
+        </p>
+    </div>
+</footer>
+
+</body>
+</html>
